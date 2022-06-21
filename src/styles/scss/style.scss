@@ -1,0 +1,48 @@
+@use "./base";
+@use "./board";
+@use "./ship";
+@use "./utilities";
+
+// ==================================================================================================== //
+// Classes
+// ==================================================================================================== //
+
+.game {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3rem;
+  row-gap: 1rem;
+}
+
+.score {
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.boards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4rem;
+}
+
+.board {
+}
+
+.fleet {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(2, 40px);
+  grid-column: 2 / 3;
+  gap: 10px;
+  height: 200px;
+
+  &__title {
+    grid-column: auto / span 5;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.25);
+    transform: rotate(7deg) translateX(-10px);
+  }
+}

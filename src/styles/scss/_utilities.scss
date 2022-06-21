@@ -1,0 +1,39 @@
+.container {
+  max-width: 1124px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+.cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.bg-cotton-light {
+  background-image: linear-gradient(
+    to right top,
+    #b2c9f4,
+    #c5c6f6,
+    #d9c3f3,
+    #ecc0ec,
+    #fdbde1
+  );
+}
+.bg-cotton-dark {
+  background-image: linear-gradient(
+    to right top,
+    #b2c9f4,
+    #c5c6f6,
+    #d9c3f3,
+    #ecc0ec,
+    #fdbde1,
+    #86a8e7,
+    #a5a6e7,
+    #c2a3e2,
+    #daa1d9,
+    #eea0cc
+  );
+}

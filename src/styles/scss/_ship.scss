@@ -1,0 +1,168 @@
+.ship {
+  background-color: #6a6a6a;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 5px;
+  transition: all 0.35s;
+
+  &.dragging {
+    transform: scale(0.88);
+  }
+
+  &__peg {
+    $-dimensions: 16px;
+    width: $-dimensions;
+    height: $-dimensions;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    transition: background-color 0.5s;
+
+    &--hit {
+      background-color: #e44172;
+
+      &:hover {
+        background-color: #e31f5a;
+      }
+    }
+  }
+
+  &--patrol {
+    grid-column: auto / span 2;
+  }
+  &--destroyer {
+    grid-column: auto / span 3;
+  }
+  &--submarine {
+    grid-column: auto / span 3;
+  }
+  &--battle {
+    grid-column: auto / span 4;
+  }
+  &--carrier {
+    grid-column: auto / span 5;
+  }
+}
+
+.ship.rotate {
+  grid-column: auto / span 1;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  &.ship--patrol {
+    grid-row: auto / span 2;
+  }
+  &.ship--destroyer {
+    grid-row: auto / span 3;
+  }
+  &.ship--submarine {
+    grid-row: auto / span 3;
+  }
+  &.ship--battle {
+    grid-row: auto / span 4;
+  }
+  &.ship--carrier {
+    grid-row: auto / span 5;
+  }
+}
+
+.user-ships {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-auto-rows: 35px;
+  gap: 10px;
+  row-gap: 10px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 1rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  min-height: 200px;
+
+  &__rotate {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 125px;
+    height: 45px;
+    border: none;
+    border-bottom-left-radius: 1rem;
+    overflow: hidden;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.5s;
+    // https://stackoverflow.com/questions/9483364/css3-background-image-transition
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Images/Using_CSS_gradients
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/background-position
+    background-size: 300% 300%;
+    background-position: right 100% top 50%;
+    background-image: linear-gradient(
+      to right top,
+      #b2c9f4,
+      10%,
+      #c5c6f6,
+      20%,
+      #d9c3f3,
+      30%,
+      #ecc0ec,
+      40%,
+      #fdbde1,
+      50%,
+      #86a8e7,
+      60%,
+      #a5a6e7,
+      70%,
+      #c2a3e2,
+      80%,
+      #daa1d9,
+      90%,
+      #eea0cc
+    );
+
+    &:hover {
+      background-position: right 0% top 50%;
+    }
+  }
+
+  .ship {
+    &--patrol {
+      grid-column: 1 / span 2;
+    }
+    &--destroyer {
+      grid-column: 3 / span 3;
+    }
+    &--submarine {
+      grid-column: 1 / span 3;
+    }
+    &--battle {
+      grid-column: 4 / span 4;
+    }
+    &--carrier {
+      grid-column: 1 / span 5;
+    }
+  }
+  .ship.rotate {
+    grid-column: auto / span 1;
+
+    &.ship--patrol {
+      grid-row: auto / span 2;
+    }
+    &.ship--destroyer {
+      grid-row: auto / span 3;
+    }
+    &.ship--submarine {
+      grid-row: auto / span 3;
+    }
+    &.ship--battle {
+      grid-row: auto / span 4;
+    }
+    &.ship--carrier {
+      grid-row: auto / span 5;
+    }
+  }
+}

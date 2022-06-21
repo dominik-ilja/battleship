@@ -1,0 +1,70 @@
+@use "animations";
+
+// ==================================================================================================== //
+// FONT-IMPORTS
+// ==================================================================================================== //
+// font-family: 'Poppins', sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+$font-poppins: "Poppins", sans-serif;
+
+// ==================================================================================================== //
+// VARIABLES
+// ==================================================================================================== //
+
+// ==================================================================================================== //
+// RESET
+// ==================================================================================================== //
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// https://mycolor.space/
+body {
+  padding-top: 2rem;
+  margin: 0;
+  background-image: linear-gradient(
+    to right bottom,
+    #5dd6fc,
+    #54c7ec,
+    #eea0cc,
+    #86a8e7,
+    #4bb9dc,
+    #43aacc,
+    #3a9cbc,
+    #369fbd,
+    #54c7ec,
+    #32a3be,
+    #2fa6be,
+    #32bbce,
+    #3bd1dc,
+    #4ae6e8,
+    #5dfcf2
+  );
+  background-size: 300% 300%;
+  animation: gradient 120s ease infinite;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  font-family: $font-poppins;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1;
+}
