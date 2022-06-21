@@ -8,6 +8,10 @@ const computerBoard = new Board(9, computerBoardEl);
 const rotateShipsButton = document.querySelector('#rotate-user-ships');
 
 console.log(userBoard);
+userBoard.updateCell(0, 0, { css: 'miss', state: 'miss' });
+userBoard.updateCell(5, 6, { css: 'hit', state: 'hit' });
+console.log(userBoard.areCellsEmpty(0, 1, 0, 1));
+console.log(userBoard.areCellsEmpty(0, 1, 1, 1));
 
 function createShips() {
   const ships = [
@@ -39,5 +43,5 @@ rotateShipsButton.addEventListener('click', () => {
     }
   });
 });
-
+// console.log();
 

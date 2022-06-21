@@ -17,6 +17,11 @@
     }
   }
 
+  .miss,
+  .hit {
+    cursor: auto;
+  }
+
   .miss {
     background-color: #3e3e3e;
     transition: background-color 0.5s;

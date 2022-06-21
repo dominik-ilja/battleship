@@ -1,43 +1,34 @@
+const { Cell } = require('./Cell');
+
 class Board {
   constructor(size, root) {
     this._size = size;
     this._grid = [];
     this._root = root;
-
     this.init();
   }
 
-  _createCell(rowIndex, colIndex) {
-    const cell = document.createElement('div');
-    cell.classList.add('cell');
-    cell.dataset.row = rowIndex;
-    cell.dataset.col = colIndex;
-    cell.dataset.code = 'empty';
-    cell.empty = true; // will probably be removed
-    cell.addEventListener('dragover', this._dragover);
-    cell.addEventListener('drop', this._drop);
-    return cell;
-  }
   _dragover(e) {
     e.preventDefault();
   }
-  _drop = (e) => {
-    const draggable = document.querySelector('.dragging');
-    const { rowspan, colspan } = draggable.dataset;
-    const { row, col } = e.target.dataset;
+  // _drop = (e) => {
+  //   console.log(e.target);
+  //   const draggable = document.querySelector('.dragging');
+  //   const { rowspan, colspan } = draggable.dataset;
+  //   const { row, col } = e.target.dataset;
 
-    const cellsWereReplaced = this.replaceCells(draggable, {
-      row: Number(row),
-      col: Number(col),
-      rowSpan: Number(rowspan),
-      colSpan: Number(colspan)
-    });
+  //   const cellsWereReplaced = this.replaceCells(draggable, {
+  //     row: Number(row),
+  //     col: Number(col),
+  //     rowSpan: Number(rowspan),
+  //     colSpan: Number(colspan)
+  //   });
 
-    if (cellsWereReplaced) {
-      draggable.setAttribute('draggable', false);
-    }
+  //   if (cellsWereReplaced) {
+  //     draggable.setAttribute('draggable', false);
+  //   }
 
-  };
+  // };
   init() {
     if (this._grid.length !== 0) this._grid = [];
 
@@ -45,17 +36,31 @@ class Board {
       const row = [];
 
       for (let colIndex = 0; colIndex < this._size; colIndex++) {
-        const cell = this._createCell(rowIndex, colIndex);
+        const cell = new Cell(rowIndex, colIndex);
+        cell.html.addEventListener('dragover', this._dragover);
+        cell.html.addEventListener('drop', this._drop);
         row.push(cell);
-        this._root.append(cell);
+        this._root.append(cell.html);
       }
       this._grid.push(row);
     }
   }
 
-  // starts at 0
   areCellsEmpty(row, rowSpan, col, colSpan) {
-    let bool = null;
+    // check that each argument is a number
+    [...arguments].forEach(arg => {
+      if (typeof arg !== 'number') {
+        throw new Error(`${arg} is a ${typeof arg}. Argument must be a number.`);
+      }
+    });
+
+    // check that rowSpan & colSpan are at least one
+    if (rowSpan < 1 || colSpan < 1) {
+      throw new Error('rowSpan and colSpan must be at least one.');
+    }
+
+
+    let cellsAreEmpty = true;
 
     const rowEnd = row + rowSpan;
     const colEnd = col + colSpan;
@@ -64,40 +69,25 @@ class Board {
       for (let currCol = col; currCol < colEnd; currCol++) {
 
         const cell = this._grid[currRow][currCol];
+        console.log(cell);
 
-        // console.log(this._grid[currRow][currCol].empty);
-        // const cell = this._grid[currRow][currCol];
-        // if (cell.empty) {
-        //   console.log(result);
-        //   result.emptyCells.push({
-        //     cell,
-        //     location: {
-        //       row,
-        //       col
-        //     }
-        //   });
-        // } else {
-        //   result.areAllCellsEmpty = false;
-        // }
-
+        if (cell.state !== 'empty') {
+          cellsAreEmpty = false;
+          break;
+        }
       }
     }
 
-    // if (result.areAllCellsEmpty === null) {
-    //   result.areAllCellsEmpty = true;
-    // }
-
-    return result;
+    return cellsAreEmpty;
 
   }
-  updateCell(row, col, cssClass) {
+  updateCell(row, col, userOptions) {
     const cell = this._grid[row][col];
-    // get cell
-    if (cell.empty) {
-      cell.classList.add(cssClass);
-      cell.empty = false;
-    }
+    cell.updateCell(userOptions);
   }
+
+
+
   replaceCell(row, col, el, replaceHTML = false) {
 
     if (el.dataset.row && el.dataset.col) {

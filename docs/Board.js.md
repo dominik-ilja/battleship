@@ -8,12 +8,15 @@
   - [Methods](#methods)
     - [Private](#private)
       - [createCell](#createcell)
-        - [Codes (cell.dataset.code)](#codes-celldatasetcode)
+        - [States (cell.dataset.state)](#states-celldatasetstate)
       - [dragover](#dragover)
       - [drop](#drop)
     - [Public](#public)
       - [init](#init)
       - [areCellsEmpty](#arecellsempty)
+        - [Parameters](#parameters)
+      - [updateCell](#updatecell)
+        - [Parameters](#parameters-1)
 
 # References
 
@@ -54,8 +57,8 @@ and styling is dependent on the user. There are also multiple dataset attributes
 to it. These dataset attributes provide us with information about what row & col 
 the cell is in and the code of the cell.
 
-##### Codes (cell.dataset.code)
-The codes on a cell provide us with information about the cell. The codes are:
+##### States (cell.dataset.state)
+The states on a cell provide us with information about the cell. The states are:
 1. empty : nothing is placed in the cell
 2. ship : a ship is located in the cell
 3. hit : a ship that has been damaged
@@ -77,15 +80,52 @@ These rows are then filled with "cells". Cells are made using createCell private
 These cells are then pushed to the grid property and appended to the root property.
 
 #### areCellsEmpty
-The `areCellsEmpty` method takes four parameters :
+The `areCellsEmpty` method takes four parameters. It returns a boolean whether all 
+the cells are empty or not.
 
-1. row (number) - The starting row of the board to check
-2. rowSpan (number) - How many rows should be checked. Must pass at least `1` to have one   
-                      row checked.
-3. col (number) - The starting column to begin checking
-4. colSpan (number) - How many columns should be checked. Must be at least `1` to check a 
-                      single column.
+##### Parameters
+**row (number)**
+
+- The starting row to begin checking
+
+**rowSpan (number)**
+
+- How many rows should be checked. Must be at least `1` to check a single row.
+
+**col (number)**
+
+- The starting column to begin checking
+
+**colSpan (number)**
+
+- How many columns should be checked. Must be at least `1` to check a single column.
+
+
 
 ```js
 areCellsEmpty(row, rowSpan, col, colSpan)
+```
+
+#### updateCell
+Takes three parameters.
+
+##### Parameters
+**row (number)**
+
+- The row of the cell to be updated.
+
+**col (number)**
+
+- The column of the cell to be updated.
+
+**options**
+
+- An object that has the following keys :
+
+```js
+// options
+{
+  css: null, // string, represeting a css class to add to the cell
+  state: null // string, must be one of the cell states
+}
 ```
