@@ -11,10 +11,18 @@
     "test": "mocha --watch"
   },
   "devDependencies": {
+    "buffer": "^6.0.3",
     "chai": "^4.3.6",
+    "crypto-browserify": "^3.12.0",
+    "events": "^3.3.0",
     "mocha": "^10.0.0",
+    "os-browserify": "^0.3.0",
     "parcel": "2.6.0",
-    "sass": "^1.52.3"
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "readline-sync": "^1.4.10",
+    "sass": "^1.52.3",
+    "stream-browserify": "^3.0.0"
   },
   "dependencies": {}
 }

@@ -58,8 +58,8 @@ h6 {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: repeat(9, 50px);
+  grid-template-columns: repeat(3, 50px);
+  grid-template-rows: repeat(3, 50px);
   gap: 10px;
 }
 .board .cell {
@@ -220,6 +220,25 @@ h6 {
 }
 .user-ships .ship.rotate.ship--carrier {
   grid-row: auto/span 5;
+}
+
+.user-ships.user-start {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.user-ships.user-start .start-button {
+  font-size: 1.5rem;
+  color: white;
+  border: none;
+  background-color: orange;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.35s;
+  border-radius: 4px;
+}
+.user-ships.user-start .start-button:hover {
+  background-color: rgb(251, 189, 73);
 }
 
 .container {

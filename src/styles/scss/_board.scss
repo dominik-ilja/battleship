@@ -1,10 +1,12 @@
 .board {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: repeat(9, 50px);
+  grid-template-columns: repeat(3, 50px);
+  grid-template-rows: repeat(3, 50px);
   gap: 10px;
 
   .cell {
+    // grid-column: auto / span 1;
+    // grid-row: auto / span 1;
     background-color: rgba(255, 255, 255, 0.25);
     $-dimensions: 50px;
     height: $-dimensions;

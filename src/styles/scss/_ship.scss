@@ -166,3 +166,24 @@
     }
   }
 }
+
+.user-ships.user-start {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .start-button {
+    font-size: 1.5rem;
+    color: white;
+    border: none;
+    background-color: orange;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.35s;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: rgb(251, 189, 73);
+    }
+  }
+}
