@@ -90,6 +90,13 @@ h6 {
     gap: 5px;
   }
 }
+@media only screen and (max-width: 700px) {
+  .board {
+    grid-template-columns: repeat(9, 29px);
+    grid-template-rows: repeat(9, 29px);
+    gap: 5px;
+  }
+}
 .board .cell {
   background-color: rgba(255, 255, 255, 0.25);
   transition: background-color 0.5s;
@@ -328,16 +335,24 @@ h6 {
   bottom: 0;
 }
 
-.bg-cotton-light {
-  background-image: linear-gradient(to right top, #b2c9f4, #c5c6f6, #d9c3f3, #ecc0ec, #fdbde1);
-}
-
-.bg-cotton-dark {
-  background-image: linear-gradient(to right top, #b2c9f4, #c5c6f6, #d9c3f3, #ecc0ec, #fdbde1, #86a8e7, #a5a6e7, #c2a3e2, #daa1d9, #eea0cc);
-}
-
 .game {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3rem;
+  row-gap: 1rem;
   position: relative;
+}
+@media only screen and (max-width: 880px) {
+  .game {
+    column-gap: 1rem;
+  }
+}
+
+.score {
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.25);
 }
 
 .play-again {
@@ -355,42 +370,6 @@ h6 {
 }
 .play-again:hover {
   background-color: rgb(161, 245, 140);
-}
-
-.game {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 3rem;
-  row-gap: 1rem;
-}
-
-.score {
-  margin-bottom: 0;
-  text-align: center;
-  font-size: 4rem;
-  color: rgba(255, 255, 255, 0.25);
-}
-
-.boards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4rem;
-}
-
-.fleet {
-  margin-top: 25px;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(2, 40px);
-  grid-column: 2/3;
-  gap: 10px;
-  height: 200px;
-}
-.fleet__title {
-  grid-column: auto/span 5;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.25);
-  transform: rotate(7deg) translateX(-10px);
 }
 
 /*# sourceMappingURL=style.css.map */

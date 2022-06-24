@@ -24,6 +24,11 @@
     grid-template-rows: repeat(9, 32px);
     gap: 5px;
   }
+  @media only screen and (max-width: 700px) {
+    grid-template-columns: repeat(9, 29px);
+    grid-template-rows: repeat(9, 29px);
+    gap: 5px;
+  }
 
   .cell {
     background-color: rgba(255, 255, 255, 0.25);

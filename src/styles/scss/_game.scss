@@ -1,3 +1,18 @@
 .game {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3rem;
+  row-gap: 1rem;
   position: relative;
+
+  @media only screen and (max-width: 880px) {
+    column-gap: 1rem;
+  }
+}
+
+.score {
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.25);
 }
