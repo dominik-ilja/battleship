@@ -4,6 +4,31 @@ https://mycolor.space/gradient3
 # Tasks
 - [X] ~~*Create a background gradient*~~ [2022-06-17]
 - [X] ~~*Animate the background gradient*~~ [2022-06-17]
+- [ ] Make sure that ships can only be placed on one board not both
+- [ ] Create a start button after all the user's ships are placed
+- [ ] once the start button is pressed the computer's ships should be randomly placed
+- [ ] Should be able to fire on cells
+- [ ] detect when all ships for a side are sunk
+- [ ] updating score of the victor
+- [ ] Give option to play again
+
+# Review Functions
+I need to go about making these functions uniform in what
+input they should be expecting.
+- [X] ~~*_shipWasPlaced*~~ [2022-06-22]
+- [X] ~~*_dragover*~~ [2022-06-22]
+- [X] ~~*_drop*~~ [2022-06-22]
+- [X] ~~*_removeCellHTML*~~ [2022-06-22]
+- [X] ~~*_allShipsPlaced*~~ [2022-06-22]
+- [X] ~~*init*~~ [2022-06-22]
+- [X] ~~*areCellsEmpty*~~ [2022-06-22]
+- [X] ~~*updateCell*~~ [2022-06-22]
+- [X] ~~*replaceCell*~~ [2022-06-22]
+- [X] ~~*addShip*~~ [2022-06-22]
+- [X] ~~*randomlyAddShips*~~ [2022-06-22]
+- [X] ~~*get ships*~~ [2022-06-22]
+
+
 
 
 ## Objectives

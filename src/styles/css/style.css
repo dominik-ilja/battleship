@@ -58,14 +58,40 @@ h6 {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: repeat(3, 50px);
+  grid-template-columns: repeat(9, 50px);
+  grid-template-rows: repeat(9, 50px);
   gap: 10px;
+}
+@media only screen and (max-width: 1150px) {
+  .board {
+    grid-template-columns: repeat(9, 45px);
+    grid-template-rows: repeat(9, 45px);
+    gap: 6px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .board {
+    grid-template-columns: repeat(9, 40px);
+    grid-template-rows: repeat(9, 40px);
+    gap: 6px;
+  }
+}
+@media only screen and (max-width: 880px) {
+  .board {
+    grid-template-columns: repeat(9, 35px);
+    grid-template-rows: repeat(9, 35px);
+    gap: 5px;
+  }
+}
+@media only screen and (max-width: 780px) {
+  .board {
+    grid-template-columns: repeat(9, 32px);
+    grid-template-rows: repeat(9, 32px);
+    gap: 5px;
+  }
 }
 .board .cell {
   background-color: rgba(255, 255, 255, 0.25);
-  height: 50px;
-  width: 50px;
   transition: background-color 0.5s;
   cursor: pointer;
 }
@@ -90,10 +116,18 @@ h6 {
 .board .hit:hover {
   background-color: #e31f5a;
 }
+.board .sunk {
+  background-color: #6b3f4c;
+  transition: background-color 0.5s;
+}
+.board .sunk:hover {
+  background-color: #6b3f4c;
+}
 
 .ship {
   background-color: #6a6a6a;
   display: flex;
+  position: relative;
   justify-content: space-around;
   align-items: center;
   padding-left: 0.5rem;
@@ -104,7 +138,19 @@ h6 {
 .ship.dragging {
   transform: scale(0.88);
 }
+.ship__hitboxes {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+}
+.ship__hitbox {
+  flex: 1;
+}
 .ship__peg {
+  position: relative;
   width: 16px;
   height: 16px;
   background-color: #f5f5f5;
@@ -139,6 +185,15 @@ h6 {
   justify-content: space-around;
   align-items: center;
 }
+.ship.rotate .ship__hitboxes {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
 .ship.rotate.ship--patrol {
   grid-row: auto/span 2;
 }
@@ -168,25 +223,41 @@ h6 {
   overflow: hidden;
   min-height: 200px;
 }
-.user-ships__rotate {
+@media only screen and (max-width: 1000px) {
+  .user-ships {
+    grid-column: auto/span 2;
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+.user-ships__buttons {
   position: absolute;
   top: 0;
   right: 0;
-  width: 125px;
-  height: 45px;
+  width: 105px;
+  display: flex;
+  flex-direction: column;
   border: none;
   border-bottom-left-radius: 1rem;
   overflow: hidden;
-  color: #fff;
-  font-weight: 600;
+}
+.user-ships__rotate, .user-ships__randomize {
+  border: none;
+  height: 45px;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: all 0.8s;
+  font-weight: 600;
   background-size: 300% 300%;
   background-position: right 100% top 50%;
-  background-image: linear-gradient(to right top, #b2c9f4, 10%, #c5c6f6, 20%, #d9c3f3, 30%, #ecc0ec, 40%, #fdbde1, 50%, #86a8e7, 60%, #a5a6e7, 70%, #c2a3e2, 80%, #daa1d9, 90%, #eea0cc);
+  color: #fff;
 }
-.user-ships__rotate:hover {
+.user-ships__rotate:hover, .user-ships__randomize:hover {
   background-position: right 0% top 50%;
+}
+.user-ships__rotate {
+  background-image: linear-gradient(to right top, #5ffbf1, #46eefa, #41dfff, #52cffe, #69bff8, #79b3f4, #8aa7ec, #9a9ae1, #aa8fd8, #ba83ca, #c777b9, #d16ba5);
+}
+.user-ships__randomize {
+  background-image: linear-gradient(to right top, #c4023d, #d01749, #db2656, #e63263, #f13d70, #f44481, #f64c92, #f755a3, #eb60b9, #db6ccd, #c779de, #b084eb);
 }
 .user-ships .ship--patrol {
   grid-column: 1/span 2;
@@ -263,6 +334,27 @@ h6 {
 
 .bg-cotton-dark {
   background-image: linear-gradient(to right top, #b2c9f4, #c5c6f6, #d9c3f3, #ecc0ec, #fdbde1, #86a8e7, #a5a6e7, #c2a3e2, #daa1d9, #eea0cc);
+}
+
+.game {
+  position: relative;
+}
+
+.play-again {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  height: 75px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.5s;
+  border-radius: 5px;
+}
+.play-again:hover {
+  background-color: rgb(161, 245, 140);
 }
 
 .game {

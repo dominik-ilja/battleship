@@ -19,4 +19,62 @@ function generateRandomNumber(min = 0, max = 10, options = { round: false, place
   return randomNum;
 }
 
+function getRandomCoords(min, max) {
+  const options = { round: true, place: 0 };
+  const row = generateRandomNumber(min, max, options);
+  const col = generateRandomNumber(min, max, options);
+
+  return { row, col };
+}
+
+function removeAllChildren(parent) {
+  // https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}
+
+// moved
+function createStartButton() {
+  const button = document.createElement('button');
+  button.textContent = 'Start Game!';
+  button.classList.add('start-button');
+  return button;
+}
+
+// moved
+function createRotateButton() {
+  const button = document.createElement('button');
+  button.textContent = 'Rotate';
+  button.id = 'rotate-user-ships';
+  button.classList.add('user-ships__rotate');
+
+  return button;
+}
+
+//moved
+function createRandomPlaceButton() {
+  const button = document.createElement('button');
+  button.textContent = 'Random';
+  button.id = 'randomize-user-ships';
+  button.classList.add('user-ships__randomize');
+  return button;
+}
+
+//moved
+function createUserShipsContainer() {
+  const container = document.createElement('div');
+  const buttons = document.createElement('div');
+  buttons.classList.add('user-ships__buttons');
+  buttons.append(createRotateButton(), createRandomPlaceButton());
+  container.id = 'user-ships';
+  container.classList.add('user-ships');
+  container.append(buttons);
+  return container;
+}
+
 exports.generateRandomNumber = generateRandomNumber;
+exports.createStartButton = createStartButton;
+exports.createUserShipsContainer = createUserShipsContainer;
+exports.getRandomCoords = getRandomCoords;
+exports.removeAllChildren = removeAllChildren;

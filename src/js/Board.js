@@ -11,143 +11,8 @@ class Board {
     this.init();
   }
 
-  _shipWasPlaced(shipEl) {
-    ship.setAttribute('draggable', false);
-
-    if (this._allShipsPlaced()) {
-
-      // emit event to say the ships have been placed
-      const event = new Event('shipsPlaced', { bubbles: true });
-      ship.dispatchEvent(event);
-    }
-  }
-  _dragover(e) {
-    e.preventDefault();
-  }
-  _drop = (e) => {
-    // check to see if the ship belongs to the board
-    const ship = document.querySelector('.dragging');
-    let shipGoesWithBoard = false;
-
-    for (let i = 0; i < this.ships.length; i++) {
-      const boardShip = this.ships[i].htmlEl;
-      if (boardShip === ship) {
-        shipGoesWithBoard = true;
-        break;
-      }
-    }
-
-    if (!shipGoesWithBoard) {
-      return;
-    }
-
-
-    let { rowspan, colspan } = ship.dataset;
-    let { row, col } = e.target.dataset;
-    rowspan = Number(rowspan), colspan = Number(colspan), row = Number(row), col = Number(col);
-
-    // addShip returns a boolean based on if the ship was added or not
-    const cellsWereReplaced = this.addShip(ship, row, rowspan, col, colspan);
-
-    // we use the above boolean to know if we're good to remove the draggable attribute
-    if (cellsWereReplaced) {
-      this._shipWasPlaced(shipEl);
-    }
-
-  };
-
-  init() {
-    if (this._grid.length !== 0) this._grid = [];
-
-    for (let rowIndex = 0; rowIndex < this._size; rowIndex++) {
-      const row = [];
-
-      for (let colIndex = 0; colIndex < this._size; colIndex++) {
-        const cell = new Cell(rowIndex, colIndex);
-        cell.html.addEventListener('dragover', this._dragover);
-        cell.html.addEventListener('drop', this._drop);
-        row.push(cell);
-        this._root.append(cell.html);
-      }
-      this._grid.push(row);
-    }
-  }
-  areCellsEmpty(row, rowSpan, col, colSpan) {
-    // check that each argument is a number
-    [...arguments].forEach(arg => {
-      if (typeof arg !== 'number') {
-        throw new Error(`${arg} is a ${typeof arg}. Argument must be a number.`);
-      }
-    });
-
-    // check that rowSpan & colSpan are at least one
-    if (rowSpan < 1 || colSpan < 1) {
-      throw new Error('rowSpan and colSpan must be at least one.');
-    }
-
-
-    let cellsAreEmpty = true;
-
-    const rowEnd = row + rowSpan;
-    const colEnd = col + colSpan;
-
-    for (let currRow = row; currRow < rowEnd; currRow++) {
-      for (let currCol = col; currCol < colEnd; currCol++) {
-
-        const cell = this._grid[currRow][currCol];
-
-        if (cell.state !== 'empty') {
-          cellsAreEmpty = false;
-          break;
-        }
-      }
-    }
-
-    return cellsAreEmpty;
-
-  }
-  updateCell(row, col, userOptions) {
-    const cell = this._grid[row][col];
-    cell.updateCell(userOptions);
-  }
-  replaceCell(el, row, col, replaceHTML = false) {
-    const { dataset } = el;
-    let rowspan = Number(dataset.rowspan);
-    let colspan = Number(dataset.colspan);
-    console.log(`rowspan: ${rowspan} colspan: ${colspan}`);
-
-
-    // if (dataset.row && dataset.col) {
-    //   if (rowspan && colspan) {
-
-    //     if (rowspan === 1) {
-    //       dataset.row = row;
-    //       dataset.col = `${dataset.col}/${col + colspan}`;
-    //     }
-    //     else if (colspan === 1) {
-    //       dataset.col = col;
-    //       dataset.row = `${dataset.row}/${row + rowspan}`;
-    //     }
-    //   }
-    // }
-    // else {
-    //   dataset.row = row;
-    //   dataset.col = col;
-    // // }
-    // dataset.row = row;
-    // dataset.col = col;
-
-    const ref = this._grid[row][col].html;
-    this._grid[row][col] = el;
-    // console.log(this._grid[row][col]);
-
-    if (replaceHTML) {
-      ref.replaceWith(el);
-    }
-
-  }
-  addShip = (ship, row, rowSpan, col, colSpan) => {
-    console.log(row, rowSpan, col, colSpan);
+  addShip(ship, row, rowSpan, col, colSpan, showShip = true) {
+    // check row, rowSpan, col, colSpan if they're numbers
     const rowEnd = row + rowSpan;
     const colEnd = col + colSpan;
     let firstPass = true;
@@ -166,76 +31,185 @@ class Board {
     // make sure that we're only replacing empty cells
     else {
       const cellsEmpty = this.areCellsEmpty(row, rowSpan, col, colSpan);
-      console.log(cellsEmpty);
 
       if (!cellsEmpty) {
         return false;
       }
     }
 
-    for (let currRow = row; currRow < rowEnd; currRow++) {
-      for (let currCol = col; currCol < colEnd; currCol++) {
+    /* 
+      Ships span multiple columns or rows so we only need to replace
+      the html at the first cell. Every other cell is going to be replaced
+      within the grid array. Therefore we can just remove the previous cell's
+      HTML.
+    */
+    this._loopCellRange(row, rowSpan, col, colSpan,
+      (cell, currRow, currCol) => {
+        if (showShip) {
 
-        /* 
-           Ships span multiple columns or rows so we only need to replace
-           the html at the first cell. Every other cell is going to be replaced
-           within the grid array. Therefore we can just remove the previous cell's
-           HTML.
-        */
-        if (firstPass) {
-          this.replaceCell(ship, currRow, currCol, true);
-          firstPass = false;
-        } else {
-          this._removeCellHTML(currRow, currCol);
-          this.replaceCell(ship, currRow, currCol);
+          if (firstPass) {
+            this.replaceCellWithShip(ship, currRow, currCol, true);
+            firstPass = false;
+          } else {
+            this._removeCellHTML(currRow, currCol);
+            this.replaceCellWithShip(ship, currRow, currCol);
+          }
         }
-      }
-    }
+        else {
+          this.replaceCellWithShip(ship, currRow, currCol);
+        }
+      });
 
-    ship.placed = true;
+    this._shipWasPlaced(ship);
+
     return true;
 
   };
-  randomlyAddShips() {
-    this.ships.forEach(ship => {
-      const max = this._size - 1;
-      const flip = generateRandomNumber(0, 1, { round: true, place: 0 });
-      const rowSpan = ship.width;
-      const colSpan = ship.length;
-
-      if (flip === 0) {
-        ship.rotate();
+  areCellsEmpty(row, rowSpan, col, colSpan) {
+    // check that each argument is a number
+    [...arguments].forEach((arg, index) => {
+      if (typeof arg !== 'number') {
+        throw new Error(`arg: ${index} : ${arg} is a ${typeof arg}. Argument must be a number.`);
       }
+    });
 
-      let isPlaced = false;
-      let i = 0;
+    // check that rowSpan & colSpan are at least one
+    if (rowSpan < 1 || colSpan < 1) {
+      throw new Error('rowSpan and colSpan must be at least one.');
+    }
 
+    let cellsAreEmpty = true;
+
+    const rowEnd = row + rowSpan;
+    const colEnd = col + colSpan;
+
+    this._loopCellRange(row, rowSpan, col, colSpan,
+      (cell, row, col) => {
+        if (cell.state !== 'empty') {
+          cellsAreEmpty = false;
+        }
+      });
+
+    return cellsAreEmpty;
+
+  }
+  getCell(row, col) {
+    return this._grid[row][col];
+  }
+  init() {
+    if (this._grid.length !== 0) this._grid = [];
+
+    for (let rowIndex = 0; rowIndex < this._size; rowIndex++) {
+      const row = [];
+
+      for (let colIndex = 0; colIndex < this._size; colIndex++) {
+        const cell = new Cell(rowIndex, colIndex);
+        cell.html.addEventListener('dragover', this._dragover);
+        cell.html.addEventListener('drop', this._drop);
+        row.push(cell);
+        this._root.append(cell.html);
+      }
+      this._grid.push(row);
+    }
+  }
+  randomlyAddShips = (showShips = true) => {
+    // we go through each ship 
+    this.ships.forEach(ship => {
+      /* 
+         1. we start counting at 0 so remove 1 to prevent accessing undefined array indexes
+         2. coinToss is simulating a coin toss to decide if we should rotate the ship or not
+         3. Use the width and length of the ship for the rowSpan and colSpan
+      */
+      let isPlaced = ship.placed;
+      if (isPlaced) return;
+
+      const max = this._size - 1; // 1.
+      const coinToss = generateRandomNumber(0, 1, { round: true, place: 0 }); // 2.
+
+      if (coinToss === 0) ship.rotate(); // 2.
+
+      const rowSpan = ship.width;  // 3.
+      const colSpan = ship.length; // 3.
+
+
+      // skips any ship that has already been placed
       while (!isPlaced) {
         const row = generateRandomNumber(0, (max - rowSpan), { round: true, place: 0 });
         const col = generateRandomNumber(0, (max - colSpan), { round: true, place: 0 });
-        isPlaced = this.addShip(ship.htmlEl, row, rowSpan, col, colSpan);
-        // console.log(isPlaced);;
-
-
-        if (isPlaced) {
-          break;
-        }
-        alert(isPlaced);
+        isPlaced = this.addShip(ship, row, rowSpan, col, colSpan, showShips);
       }
+
+      this._shipWasPlaced(ship);
     });
+
+
+  };
+  replaceCellWithShip(ship, row, col, replaceHTML = false) {
+    const colSpan = ship.length,
+      rowSpan = ship.width,
+      { dataset } = ship.html;
+
+    dataset.row = row;
+    dataset.col = col;
+    ship.addCoords(row, col);
+
+    const ref = this._grid[row][col];
+    this._grid[row][col] = ship;
+
+    if (replaceHTML) {
+      ref.html.replaceWith(ship.html);
+    }
 
   }
-  _removeCellHTML = (row, col) => {
-    this._grid[row][col].html.remove();
-  };
+  updateCell(row, col, userOptions) {
+    const cell = this._grid[row][col];
+    cell.updateCell(userOptions);
+  }
+
   _allShipsPlaced() {
     return this.ships.every(ship => {
-      return ship.htmlEl.getAttribute('draggable') === 'false';
+      return ship.placed === true;
     });
+  };
+  _dragover(e) {
+    e.preventDefault();
+  }
+  _drop = (e) => {
+    // check to see if the ship belongs to the board
+    const shipEl = document.querySelector('.dragging');
+    const ship = this.ships.find(ship => ship.html === shipEl);
+    const { row, col } = e.target.dataset;
+
+    if (ship) {
+      this.addShip(ship, Number(row), ship.width, Number(col), ship.length);
+    }
+  };
+  _loopCellRange(row, rowSpan, col, colSpan, cb) {
+    const rowEnd = row + rowSpan, colEnd = col + colSpan;
+
+    for (let currRow = row; currRow < rowEnd; currRow++) {
+      for (let currCol = col; currCol < colEnd; currCol++) {
+        cb(this._grid[currRow][currCol], currRow, currCol);
+      }
+    }
+  }
+  _removeCellHTML(row, col) {
+    this._grid[row][col].html.remove();
+  };
+  _shipWasPlaced(ship) {
+    ship.placed = true;
+    ship.html.setAttribute('draggable', false);
+
+    if (this._allShipsPlaced()) {
+      ship.html.dispatchEvent(new CustomEvent('shipsPlaced', { bubbles: true }));
+    }
   }
 
   get ships() {
     return this._ships;
+  }
+  get root() {
+    return this._root;
   }
 }
 

@@ -1,18 +1,41 @@
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: repeat(3, 50px);
+  grid-template-columns: repeat(9, 50px);
+  grid-template-rows: repeat(9, 50px);
   gap: 10px;
 
+  @media only screen and (max-width: 1150px) {
+    grid-template-columns: repeat(9, 45px);
+    grid-template-rows: repeat(9, 45px);
+    gap: 6px;
+  }
+  @media only screen and (max-width: 1000px) {
+    grid-template-columns: repeat(9, 40px);
+    grid-template-rows: repeat(9, 40px);
+    gap: 6px;
+  }
+  @media only screen and (max-width: 880px) {
+    grid-template-columns: repeat(9, 35px);
+    grid-template-rows: repeat(9, 35px);
+    gap: 5px;
+  }
+  @media only screen and (max-width: 780px) {
+    grid-template-columns: repeat(9, 32px);
+    grid-template-rows: repeat(9, 32px);
+    gap: 5px;
+  }
+
   .cell {
-    // grid-column: auto / span 1;
-    // grid-row: auto / span 1;
     background-color: rgba(255, 255, 255, 0.25);
-    $-dimensions: 50px;
-    height: $-dimensions;
-    width: $-dimensions;
+    // $-dimensions: 50px;
+    // height: $-dimensions;
+    // width: $-dimensions;
     transition: background-color 0.5s;
     cursor: pointer;
+
+    @media only screen and (max-width: 1150px) {
+      // $-dimensions:
+    }
 
     &:hover {
       background-color: #dbdbdb;
@@ -39,6 +62,14 @@
 
     &:hover {
       background-color: #e31f5a;
+    }
+  }
+  .sunk {
+    background-color: #6b3f4c;
+    transition: background-color 0.5s;
+
+    &:hover {
+      background-color: #6b3f4c;
     }
   }
 }

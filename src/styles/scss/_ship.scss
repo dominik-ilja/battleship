@@ -1,6 +1,7 @@
 .ship {
   background-color: #6a6a6a;
   display: flex;
+  position: relative;
   justify-content: space-around;
   align-items: center;
   padding-left: 0.5rem;
@@ -12,7 +13,22 @@
     transform: scale(0.88);
   }
 
+  &__hitboxes {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+  }
+
+  &__hitbox {
+    flex: 1;
+  }
+
   &__peg {
+    position: relative;
+    // z-index: -1;
     $-dimensions: 16px;
     width: $-dimensions;
     height: $-dimensions;
@@ -52,6 +68,16 @@
   justify-content: space-around;
   align-items: center;
 
+  .ship__hitboxes {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
   &.ship--patrol {
     grid-row: auto / span 2;
   }
@@ -82,51 +108,76 @@
   overflow: hidden;
   min-height: 200px;
 
-  &__rotate {
+  @media only screen and (max-width: 1000px) {
+    grid-column: auto / span 2;
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  &__buttons {
     position: absolute;
     top: 0;
     right: 0;
-    width: 125px;
-    height: 45px;
+    width: 105px;
+    display: flex;
+    flex-direction: column;
     border: none;
     border-bottom-left-radius: 1rem;
     overflow: hidden;
-    color: #fff;
-    font-weight: 600;
+  }
+
+  &__rotate,
+  &__randomize {
+    border: none;
+    height: 45px;
     cursor: pointer;
-    transition: all 0.5s;
-    // https://stackoverflow.com/questions/9483364/css3-background-image-transition
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Images/Using_CSS_gradients
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/background-position
+    transition: all 0.8s;
+    font-weight: 600;
     background-size: 300% 300%;
     background-position: right 100% top 50%;
-    background-image: linear-gradient(
-      to right top,
-      #b2c9f4,
-      10%,
-      #c5c6f6,
-      20%,
-      #d9c3f3,
-      30%,
-      #ecc0ec,
-      40%,
-      #fdbde1,
-      50%,
-      #86a8e7,
-      60%,
-      #a5a6e7,
-      70%,
-      #c2a3e2,
-      80%,
-      #daa1d9,
-      90%,
-      #eea0cc
-    );
+    color: #fff;
 
     &:hover {
       background-position: right 0% top 50%;
     }
+  }
+
+  &__rotate {
+    // https://stackoverflow.com/questions/9483364/css3-background-image-transition
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Images/Using_CSS_gradients
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/background-position
+    background-image: linear-gradient(
+      to right top,
+      #5ffbf1,
+      #46eefa,
+      #41dfff,
+      #52cffe,
+      #69bff8,
+      #79b3f4,
+      #8aa7ec,
+      #9a9ae1,
+      #aa8fd8,
+      #ba83ca,
+      #c777b9,
+      #d16ba5
+    );
+  }
+  &__randomize {
+    background-image: linear-gradient(
+      to right top,
+      #c4023d,
+      #d01749,
+      #db2656,
+      #e63263,
+      #f13d70,
+      #f44481,
+      #f64c92,
+      #f755a3,
+      #eb60b9,
+      #db6ccd,
+      #c779de,
+      #b084eb
+    );
   }
 
   .ship {
