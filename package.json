@@ -1,12 +1,11 @@
 {
   "name": "module_0",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": "https://github.com/Dominik-Ilja/battleship.git",
   "author": "Dominik Ilja <104933651+Dominik-Ilja@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "build": "parcel build",
+    "build": "parcel build src/index.html",
     "start": "parcel src/index.html --port 43256",
     "sass": "sass --watch src/styles/scss:src/styles/css",
     "test": "mocha --watch"
